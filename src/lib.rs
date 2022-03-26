@@ -1,2 +1,2 @@
 mod dasm;
-pub use dasm::{Disassembler, Instruction, OPCode};
+pub use dasm::{Disassembler, Instructions, Instruction, OPCode};

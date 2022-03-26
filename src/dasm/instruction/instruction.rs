@@ -1,18 +1,27 @@
-use crate::dasm::{instruction::{OPCode, Peek, peek_opcode, operand}, ByteCodeReader};
+use crate::dasm::ByteCodeReader;
+use crate::dasm::instruction::{Offset, OPCode, Peek, peek_opcode, operand};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Instruction<'a> {
-    pub offset: usize,
     pub size: usize,
     pub opcode: OPCode,
     pub operand: Option<&'a [u8]>,
 }
 
-pub(crate) fn disasm_one<'a>(offset: usize, bytecode: &'a [u8]) -> Option<Instruction<'a>> {
+pub(crate) fn disasm_one<'a>(offset: usize, bytecode: &'a [u8]) -> Option<Offset<Instruction<'a>>> {
     let Peek::<OPCode> { data: opcode, size: opcode_size } = peek_opcode(bytecode)?;
     let operand = operand(opcode, &bytecode[opcode_size..]);
 
-    Some(Instruction { offset, opcode, operand, size: opcode_size + operand.map(<[u8]>::len).unwrap_or(0) })
+    let instruction = Instruction {
+        opcode,
+        operand,
+        size: opcode_size + operand.map(<[u8]>::len).unwrap_or(0),
+    };
+
+    Some(Offset {
+        offset,
+        data: instruction,
+    })
 }
 
 pub struct Instructions<'a> {
@@ -26,7 +35,7 @@ impl<'a> Instructions<'a> {
 }
 
 impl<'a> Iterator for Instructions<'a> {
-    type Item = Instruction<'a>;
+    type Item = Offset<Instruction<'a>>;
 
     fn next(&mut self) -> Option<Self::Item> {
         self.reader.next()
