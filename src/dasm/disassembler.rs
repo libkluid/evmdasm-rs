@@ -1,4 +1,4 @@
-use crate::dasm::{ByteCodeReader, Instruction};
+use crate::dasm::{ByteCodeReader, Instructions};
 
 
 pub struct Disassembler<'a> {
@@ -11,10 +11,7 @@ impl<'a> Disassembler<'a> {
         Disassembler { reader }
     }
 
-    pub fn disassemble<F>(self) -> F
-    where
-        F: FromIterator<Instruction<'a>>
-    {
-        self.reader.collect()
+    pub fn disassemble(self) -> Instructions<'a> {
+        Instructions::new(self.reader)
     }
 }

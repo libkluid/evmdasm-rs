@@ -9,4 +9,4 @@ pub(self) use operand::operand;
 pub(in crate::dasm) use instruction::disasm_one;
 
 pub use opcode::OPCode;
-pub use instruction::Instruction;
+pub use instruction::{Instruction, Instructions};
