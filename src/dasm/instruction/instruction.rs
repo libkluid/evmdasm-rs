@@ -1,5 +1,5 @@
-use crate::dasm::ByteCodeReader;
-use crate::dasm::instruction::{Offset, OPCode, Peek, peek_opcode, operand};
+use crate::dasm::{ByteCodeReader, Offset};
+use crate::dasm::instruction::{OPCode, Peek, peek_opcode, operand};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Instruction<'a> {

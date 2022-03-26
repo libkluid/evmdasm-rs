@@ -10,10 +10,16 @@ license = "MIT OR Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+log = "0.4"
 
 [dev-dependencies]
+env_logger = "0.9"
 hex = "0.4.3"
 
 [[example]]
 name = "eth-multicall2"
 path = "examples/eth-multicall2.rs"
+
+[[example]]
+name = "analyze"
+path = "examples/analyze.rs"
